@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BROOKLYN STREETWEAR | Vista sua atitude</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Bebas Neue e Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Bebas Neue"', 'sans-serif'],
+            heading: ['"Space Grotesk"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              yellow: '#FACC15',
+              orange: '#FF5500',
+              accent: '#E11D48',
+              dark: '#0A0A0C',
+              card: '#121216',
+              border: '#27272A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased min-h-screen flex flex-col selection:bg-yellow-400 selection:text-black">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-yellow-400 text-black text-xs font-bold py-1.5 px-4 text-center tracking-wider uppercase flex items-center justify-center gap-2">
+    <span>🔥 FRETE GRÁTIS nas compras acima de <span id="topBarFreteGratis">R$ 299,00</span></span>
+    <span class="hidden sm:inline">•</span>
+    <span class="hidden sm:inline">Use o cupom: <strong class="underline decoration-2">BROOKLYN10</strong> para 10% OFF</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2 group">
+        <div class="w-10 h-10 bg-yellow-400 text-black flex items-center justify-center font-display text-2xl font-black rounded-none transform -rotate-3 group-hover:rotate-0 transition-transform">
+          B
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display text-2xl sm:text-3xl tracking-wider leading-none text-white group-hover:text-yellow-400 transition-colors">
+            BROOKLYN
+          </span>
+          <span class="text-[10px] tracking-[0.25em] text-zinc-400 font-bold uppercase">
+            STREETWEAR
+          </span>
+        </div>
+      </a>
+
+      <!-- Search Input -->
+      <div class="hidden md:flex items-center flex-1 max-w-md mx-6">
+        <div class="relative w-full">
+          <input type="text" id="searchInput" placeholder="Buscar camiseta, tênis, boné..." 
+            class="w-full bg-zinc-900/80 border border-zinc-700 text-sm text-zinc-200 pl-10 pr-4 py-2.5 rounded-full focus:outline-none focus:border-yellow-400 transition-colors">
+          <i data-lucide="search" class="w-4 h-4 text-zinc-400 absolute left-3.5 top-3"></i>
+        </div>
+      </div>
+
+      <!-- User & Cart Actions -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- User Profile / Login Button -->
+        <div id="userNavSection" class="relative">
+          <button id="userMenuBtn" class="flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-200 transition-all">
+            <i data-lucide="user" class="w-4 h-4 text-yellow-400"></i>
+            <span id="userNameLabel" class="hidden sm:inline">Entrar</span>
+          </button>
+        </div>
+
+        <!-- Admin Shortcut (Visual Badge if Admin) -->
+        <button id="adminQuickBtn" class="hidden text-xs font-bold px-3 py-2 rounded-lg bg-red-600/20 text-red-400 border border-red-500/40 hover:bg-red-600/30 transition-all items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+          <span>Painel Admin</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button id="openCartBtn" class="relative p-2.5 sm:px-4 sm:py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-bold rounded-lg flex items-center gap-2 transition-transform active:scale-95">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span class="hidden sm:inline text-xs tracking-wider uppercase font-extrabold">Carrinho</span>
+          <span id="cartBadge" class="bg-black text-yellow-400 text-xs font-black px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+            0
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-grow">
+    
+    <!-- HERO SECTION -->
+    <section class="relative min-h-[520px] lg:min-h-[620px] flex items-center justify-center overflow-hidden border-b border-zinc-800 bg-zinc-950">
+      <!-- Background Street Overlay with urban texture -->
+      <div class="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:20px_20px] opacity-40"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/80 to-transparent"></div>
+      
+      <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-20 text-center flex flex-col items-center">
+        <!-- Tagline Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-700 text-xs font-semibold uppercase tracking-widest text-yellow-400 mb-6 shadow-inner">
+          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+          Nova Coleção Drop 2026
+        </div>
+
+        <!-- Big Bold Urban Title -->
+        <h1 class="font-display text-6xl sm:text-8xl md:text-9xl tracking-tight text-white uppercase leading-[0.9] drop-shadow-2xl">
+          BROOKLYN<br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-yellow-200 to-white">
+            STREETWEAR
+          </span>
+        </h1>
+
+        <!-- Slogan -->
+        <p class="mt-6 text-xl sm:text-2xl md:text-3xl text-zinc-300 font-heading font-bold uppercase tracking-wider">
+          Vista sua atitude.
+        </p>
+
+        <p class="mt-3 text-sm sm:text-base text-zinc-400 max-w-xl font-normal">
+          Modelagens oversized autênticas, cortes precisos e caimento pesado. Feito para quem dita o próprio ritmo na rua.
+        </p>
+
+        <!-- CTA COMPRAR AGORA -->
+        <div class="mt-8 flex flex-wrap gap-4 justify-center">
+          <a href="#destaques" class="px-8 py-4 bg-yellow-400 hover:bg-yellow-300 text-black font-display text-2xl tracking-wider uppercase rounded-none transform hover:-translate-y-0.5 transition-all shadow-[0_0_30px_rgba(250,204,21,0.3)] flex items-center gap-3">
+            <span>COMPRAR AGORA</span>
+            <i data-lucide="arrow-down" class="w-6 h-6"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUES / CATEGORIAS SECTION -->
+    <section id="destaques" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-zinc-800 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-yellow-400">Drop Exclusivo</span>
+          <h2 class="font-display text-4xl sm:text-5xl tracking-wide text-white uppercase mt-1">
+            DESTAQUES
+          </h2>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap items-center gap-2" id="categoryFilters">
+          <button data-category="todos" class="category-btn active px-4 py-2 text-xs font-bold uppercase rounded-lg border transition-all">
+            Todos
+          </button>
+          <button data-category="Camisetas" class="category-btn px-4 py-2 text-xs font-bold uppercase rounded-lg border transition-all">
+            👕 Camisetas
+          </button>
+          <button data-category="Calçados" class="category-btn px-4 py-2 text-xs font-bold uppercase rounded-lg border transition-all">
+            👟 Calçados
+          </button>
+          <button data-category="Acessórios" class="category-btn px-4 py-2 text-xs font-bold uppercase rounded-lg border transition-all">
+            🧢 Acessórios
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- VALUE PROPOSITIONS -->
+    <section class="border-t border-zinc-800 bg-zinc-950/60 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="w-12 h-12 rounded-lg bg-yellow-400/10 text-yellow-400 flex items-center justify-center shrink-0">
+            <i data-lucide="truck" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-white">Envio Rápido e Seguro</h4>
+            <p class="text-xs text-zinc-400">Rastreamento em tempo real para todo o Brasil.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="w-12 h-12 rounded-lg bg-yellow-400/10 text-yellow-400 flex items-center justify-center shrink-0">
+            <i data-lucide="shield" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-white">Qualidade Brooklyn Heavy</h4>
+            <p class="text-xs text-zinc-400">Algodão de alta gramatura e tecidos duradouros.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-zinc-800">
+          <div class="w-12 h-12 rounded-lg bg-yellow-400/10 text-yellow-400 flex items-center justify-center shrink-0">
+            <i data-lucide="credit-card" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-white">Pagamento Flexível</h4>
+            <p class="text-xs text-zinc-400">Pix com 5% OFF ou até 12x sem juros no cartão.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-black border-t border-zinc-800 text-zinc-400 text-xs py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-yellow-400 text-black flex items-center justify-center font-display text-xl font-black">
+          B
+        </div>
+        <p class="text-zinc-500">© 2026 BROOKLYN STREETWEAR. Todos os direitos reservados.</p>
+      </div>
+
+      <!-- Quick role switcher demo helper -->
+      <div class="flex items-center gap-3 text-zinc-500">
+        <span>Acesso Rápido Demo:</span>
+        <button id="footerAdminSwitch" class="hover:text-yellow-400 underline transition-colors">Entrar como Administrador</button>
+        <span>•</span>
+        <button id="footerResetStore" class="hover:text-red-400 underline transition-colors">Restaurar Dados da Loja</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS & DRAWERS ==================== -->
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="productModal" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-4 overflow-y-auto">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl relative my-8">
+        
+        <!-- Close button -->
+        <button id="closeProductModalBtn" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-zinc-300 hover:text-white flex items-center justify-center transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="grid grid-cols-1 md:grid-cols-2">
+          <!-- Product Image -->
+          <div class="relative bg-zinc-950 aspect-square md:aspect-auto flex items-center justify-center overflow-hidden">
+            <img id="modalProductImg" src="" alt="Produto" class="w-full h-full object-cover">
+            <div id="modalProductBadge" class="absolute top-4 left-4 bg-yellow-400 text-black font-extrabold text-xs px-2.5 py-1 uppercase tracking-wider rounded">
+              Destaque
+            </div>
+          </div>
+
+          <!-- Product Info & Purchase Options -->
+          <div class="p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <span id="modalProductCategory" class="text-xs font-bold uppercase tracking-widest text-yellow-400">
+                CAMISETAS
+              </span>
+              <h3 id="modalProductName" class="font-heading text-2xl sm:text-3xl font-extrabold text-white mt-1">
+                Camiseta Oversized Brooklyn
+              </h3>
+              
+              <div class="mt-3 flex items-baseline gap-3">
+                <span id="modalProductPrice" class="text-3xl font-black text-yellow-400">
+                  R$ 129,90
+                </span>
+                <span id="modalProductOldPrice" class="text-sm text-zinc-500 line-through"></span>
+              </div>
+
+              <!-- Stock Indicator -->
+              <div id="modalProductStock" class="mt-2 text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span id="modalProductStockText">Em estoque</span>
+              </div>
+
+              <!-- Description -->
+              <p id="modalProductDesc" class="mt-4 text-sm text-zinc-300 leading-relaxed">
+                Modelagem oversized ampla com caimento estruturado e costuras reforçadas. 100% algodão penteado 260g/m² com toque macio e estampa exclusiva.
+              </p>
+
+              <!-- Size Selector -->
+              <div class="mt-6">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-xs font-bold uppercase tracking-wider text-zinc-400">Selecione o Tamanho:</label>
+                  <span class="text-[11px] text-zinc-500">Guia de medidas</span>
+                </div>
+                <div id="modalSizeButtons" class="flex flex-wrap gap-2">
+                  <!-- Injected via JS (P, M, G, GG) -->
+                </div>
+                <p id="sizeErrorMsg" class="hidden text-xs text-red-400 mt-1.5 font-medium">Por favor selecione um tamanho.</p>
+              </div>
+
+              <!-- Quantity Selector -->
+              <div class="mt-6">
+                <label class="text-xs font-bold uppercase tracking-wider text-zinc-400 block mb-2">Quantidade:</label>
+                <div class="inline-flex items-center rounded-lg border border-zinc-700 bg-zinc-950 p-1">
+                  <button id="modalQtyMinus" type="button" class="w-8 h-8 rounded text-zinc-300 hover:bg-zinc-800 flex items-center justify-center font-bold">
+                    <i data-lucide="minus" class="w-4 h-4"></i>
+                  </button>
+                  <span id="modalQtyDisplay" class="w-12 text-center text-sm font-bold text-white">1</span>
+                  <button id="modalQtyPlus" type="button" class="w-8 h-8 rounded text-zinc-300 hover:bg-zinc-800 flex items-center justify-center font-bold">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add to Cart CTA -->
+            <div class="mt-8 pt-4 border-t border-zinc-800 flex gap-3">
+              <button id="modalAddToCartBtn" class="flex-1 py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-[0.98] text-black font-heading text-base font-extrabold uppercase rounded-lg flex items-center justify-center gap-2 shadow-lg transition-all">
+                <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                <span>Adicionar ao Carrinho</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div id="cartBackdrop" class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <div class="absolute inset-y-0 right-0 max-w-md w-full bg-zinc-900 border-l border-zinc-800 shadow-2xl flex flex-col z-10">
+      
+      <!-- Drawer Header -->
+      <div class="p-5 border-b border-zinc-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-yellow-400"></i>
+          <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider">Seu Carrinho</h3>
+          <span id="drawerItemCount" class="text-xs bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded-full font-bold">0 itens</span>
+        </div>
+        <button id="closeCartBtn" class="p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Items List -->
+      <div id="cartItemsList" class="flex-1 overflow-y-auto p-5 space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Cart Empty State -->
+      <div id="cartEmptyState" class="hidden flex-1 flex flex-col items-center justify-center p-8 text-center">
+        <div class="w-16 h-16 rounded-full bg-zinc-800/80 flex items-center justify-center text-zinc-500 mb-4">
+          <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+        </div>
+        <h4 class="font-heading text-lg font-bold text-white">Seu carrinho está vazio</h4>
+        <p class="text-xs text-zinc-400 mt-1 max-w-xs">Explore nossa coleção de roupas e calçados e escolha sua atitude.</p>
+        <button id="emptyCartShopBtn" class="mt-4 px-4 py-2 bg-yellow-400 text-black text-xs font-bold uppercase rounded-lg">
+          Ver Destaques
+        </button>
+      </div>
+
+      <!-- Drawer Footer & Calculations -->
+      <div id="cartFooter" class="p-5 border-t border-zinc-800 bg-zinc-950/80 space-y-4">
+        
+        <!-- Coupon Code Input -->
+        <div class="flex gap-2">
+          <input type="text" id="couponInput" placeholder="Cupom (ex: BROOKLYN10)" 
+            class="flex-1 bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded uppercase font-semibold focus:outline-none focus:border-yellow-400">
+          <button id="applyCouponBtn" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-white rounded transition-colors">
+            Aplicar
+          </button>
+        </div>
+        <div id="couponAppliedBadge" class="hidden text-xs text-emerald-400 font-semibold flex items-center justify-between bg-emerald-950/40 p-2 rounded border border-emerald-800/50">
+          <span id="couponAppliedText">Cupom BROOKLYN10 aplicado</span>
+          <button id="removeCouponBtn" class="text-red-400 hover:underline text-[11px]">Remover</button>
+        </div>
+
+        <!-- Cost Breakdown -->
+        <div class="space-y-1.5 text-xs text-zinc-300">
+          <div class="flex justify-between">
+            <span>Subtotal:</span>
+            <span id="cartSubtotal" class="font-bold text-white">R$ 0,00</span>
+          </div>
+          <div id="cartDiscountRow" class="hidden flex justify-between text-emerald-400 font-semibold">
+            <span>Desconto Cupom:</span>
+            <span id="cartDiscount">- R$ 0,00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="flex items-center gap-1">
+              Frete:
+              <span id="freteInfoTip" class="text-[10px] text-zinc-500">(Fixo)</span>
+            </span>
+            <span id="cartFrete" class="font-bold text-white">R$ 0,00</span>
+          </div>
+          <div class="pt-2 border-t border-zinc-800 flex justify-between text-sm">
+            <span class="font-bold text-white">Total:</span>
+            <span id="cartTotal" class="font-black text-xl text-yellow-400">R$ 0,00</span>
+          </div>
+        </div>
+
+        <!-- Checkout Button -->
+        <button id="checkoutBtn" class="w-full py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-[0.99] text-black font-heading text-base font-extrabold uppercase rounded-lg flex items-center justify-center gap-2 shadow-lg transition-all">
+          <span>FINALIZAR COMPRA</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden">
+    <!-- Backdrop -->
+    <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-4 overflow-y-auto">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl relative my-6">
+        
+        <!-- Header -->
+        <div class="p-5 border-b border-zinc-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-yellow-400 text-black flex items-center justify-center font-bold text-sm">
+              ✓
+            </div>
+            <h3 class="font-heading text-xl font-bold text-white uppercase">Finalizar Pedido</h3>
+          </div>
+          <button id="closeCheckoutBtn" class="p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Checkout Form Content -->
+        <form id="checkoutForm" class="p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+          
+          <!-- Customer Info -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-yellow-400 mb-3 flex items-center gap-1.5">
+              <i data-lucide="user" class="w-4 h-4"></i>
+              <span>1. Dados do Cliente</span>
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Nome Completo *</label>
+                <input type="text" id="chkName" required placeholder="Ex: Lucas Silva" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">E-mail *</label>
+                <input type="email" id="chkEmail" required placeholder="seu@email.com" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Telefone / WhatsApp *</label>
+                <input type="tel" id="chkPhone" required placeholder="(11) 99999-9999" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">CPF *</label>
+                <input type="text" id="chkCpf" required placeholder="000.000.000-00" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Address -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-yellow-400 mb-3 flex items-center gap-1.5">
+              <i data-lucide="map-pin" class="w-4 h-4"></i>
+              <span>2. Endereço de Entrega</span>
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">CEP *</label>
+                <input type="text" id="chkCep" required placeholder="01001-000" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs text-zinc-400 mb-1">Rua / Avenida *</label>
+                <input type="text" id="chkAddress" required placeholder="Rua Augusta, 1000" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Bairro *</label>
+                <input type="text" id="chkNeighborhood" required placeholder="Consolação" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Cidade *</label>
+                <input type="text" id="chkCity" required placeholder="São Paulo" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Estado *</label>
+                <input type="text" id="chkState" required placeholder="SP" maxlength="2" 
+                  class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded uppercase focus:outline-none focus:border-yellow-400">
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-yellow-400 mb-3 flex items-center gap-1.5">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
+              <span>3. Forma de Pagamento</span>
+            </h4>
+
+            <div class="grid grid-cols-3 gap-3">
+              <!-- PIX -->
+              <label class="payment-option-label relative flex flex-col items-center justify-center p-3 rounded-xl border border-zinc-700 bg-zinc-950/60 cursor-pointer hover:border-yellow-400 transition-all">
+                <input type="radio" name="paymentMethod" value="pix" checked class="peer sr-only">
+                <div class="peer-checked:text-yellow-400 text-zinc-400 flex flex-col items-center">
+                  <i data-lucide="zap" class="w-6 h-6 mb-1 text-emerald-400"></i>
+                  <span class="text-xs font-bold">PIX</span>
+                  <span class="text-[10px] text-emerald-400 font-semibold mt-0.5">5% OFF</span>
+                </div>
+                <div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-yellow-400 pointer-events-none"></div>
+              </label>
+
+              <!-- CARTÃO -->
+              <label class="payment-option-label relative flex flex-col items-center justify-center p-3 rounded-xl border border-zinc-700 bg-zinc-950/60 cursor-pointer hover:border-yellow-400 transition-all">
+                <input type="radio" name="paymentMethod" value="card" class="peer sr-only">
+                <div class="peer-checked:text-yellow-400 text-zinc-400 flex flex-col items-center">
+                  <i data-lucide="credit-card" class="w-6 h-6 mb-1 text-blue-400"></i>
+                  <span class="text-xs font-bold">Cartão</span>
+                  <span class="text-[10px] text-zinc-500 mt-0.5">Até 12x</span>
+                </div>
+                <div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-yellow-400 pointer-events-none"></div>
+              </label>
+
+              <!-- BOLETO -->
+              <label class="payment-option-label relative flex flex-col items-center justify-center p-3 rounded-xl border border-zinc-700 bg-zinc-950/60 cursor-pointer hover:border-yellow-400 transition-all">
+                <input type="radio" name="paymentMethod" value="boleto" class="peer sr-only">
+                <div class="peer-checked:text-yellow-400 text-zinc-400 flex flex-col items-center">
+                  <i data-lucide="barcode" class="w-6 h-6 mb-1 text-purple-400"></i>
+                  <span class="text-xs font-bold">Boleto</span>
+                  <span class="text-[10px] text-zinc-500 mt-0.5">À vista</span>
+                </div>
+                <div class="absolute inset-0 rounded-xl border-2 border-transparent peer-checked:border-yellow-400 pointer-events-none"></div>
+              </label>
+            </div>
+
+            <!-- Dynamic Payment Details Area -->
+            <div id="paymentDetailsArea" class="mt-4 p-4 rounded-xl bg-zinc-950 border border-zinc-800">
+              <!-- Swapped based on selected payment -->
+              <div id="pixDetails" class="text-xs text-zinc-300 space-y-2">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Aprovação Imediata + 5% de desconto automático!</span>
+                </div>
+                <p class="text-zinc-400">Ao clicar em confirmar, um QR Code e código Copia e Cola dinâmicos serão gerados para pagamento via app do seu banco.</p>
+              </div>
+
+              <div id="cardDetails" class="hidden space-y-3">
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Número do Cartão</label>
+                  <input type="text" placeholder="0000 0000 0000 0000" class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-xs text-zinc-400 mb-1">Validade (MM/AA)</label>
+                    <input type="text" placeholder="12/28" class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                  </div>
+                  <div>
+                    <label class="block text-xs text-zinc-400 mb-1">CVV</label>
+                    <input type="text" placeholder="123" maxlength="4" class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Parcelamento</label>
+                  <select id="cardInstallments" class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                    <option value="1">1x à vista (sem juros)</option>
+                    <option value="2">2x sem juros</option>
+                    <option value="3">3x sem juros</option>
+                    <option value="6">6x sem juros</option>
+                    <option value="12">12x com juros</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="boletoDetails" class="hidden text-xs text-zinc-300 space-y-2">
+                <p class="text-zinc-400">O boleto vence em até 3 dias úteis. A confirmação é feita automaticamente após a compensação bancária.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout Order Summary -->
+          <div class="p-4 bg-zinc-950 rounded-xl border border-zinc-800 space-y-2 text-xs">
+            <div class="flex justify-between text-zinc-400">
+              <span>Itens no pedido:</span>
+              <span id="chkItemsCount" class="font-bold text-white">0</span>
+            </div>
+            <div class="flex justify-between text-zinc-400">
+              <span>Frete:</span>
+              <span id="chkFreteVal" class="font-bold text-white">R$ 0,00</span>
+            </div>
+            <div id="chkPixDiscountRow" class="flex justify-between text-emerald-400 font-semibold">
+              <span>Desconto Pix (5%):</span>
+              <span id="chkPixDiscountVal">- R$ 0,00</span>
+            </div>
+            <div class="pt-2 border-t border-zinc-800 flex justify-between items-baseline">
+              <span class="text-sm font-bold text-white uppercase">Total a Pagar:</span>
+              <span id="chkFinalTotal" class="text-2xl font-black text-yellow-400">R$ 0,00</span>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="confirmOrderBtn" class="w-full py-4 bg-yellow-400 hover:bg-yellow-300 text-black font-heading text-lg font-black uppercase rounded-lg flex items-center justify-center gap-2 shadow-xl transition-all">
+            <i data-lucide="lock" class="w-4 h-4"></i>
+            <span>Confirmar e Finalizar Pedido</span>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDER CONFIRMATION / SUCCESS MODAL -->
+  <div id="orderSuccessModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-backdrop absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-lg w-full p-8 text-center relative shadow-2xl">
+        
+        <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+
+        <h3 class="font-heading text-3xl font-extrabold text-white uppercase">Pedido Confirmado!</h3>
+        <p class="text-xs text-zinc-400 mt-1">Obrigado por comprar na Brooklyn Streetwear.</p>
+
+        <!-- Order Number Card -->
+        <div class="my-6 p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-left space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Número do Pedido:</span>
+            <span id="successOrderId" class="font-mono font-bold text-yellow-400">#BK-98421</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Forma de Pagamento:</span>
+            <span id="successPaymentMethod" class="font-bold text-white uppercase">PIX</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Total Pago:</span>
+            <span id="successTotal" class="font-bold text-white">R$ 149,90</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Envio para:</span>
+            <span id="successAddress" class="font-medium text-zinc-300">Rua Augusta, 1000</span>
+          </div>
+        </div>
+
+        <div id="pixQrContainer" class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl mb-6 text-center">
+          <p class="text-xs text-zinc-400 mb-2 font-semibold">Chave Pix Copia e Cola:</p>
+          <div class="flex gap-2">
+            <input type="text" id="pixCodeCopy" readonly value="00020126580014br.gov.bcb.pix0136brooklyn-streetwear-demo-pay520400005303986" 
+              class="flex-1 bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs px-2 py-1.5 rounded font-mono truncate">
+            <button id="copyPixBtn" class="px-3 py-1.5 bg-yellow-400 text-black text-xs font-bold rounded">
+              Copiar
+            </button>
+          </div>
+        </div>
+
+        <button id="closeSuccessBtn" class="w-full py-3 bg-yellow-400 text-black font-heading text-base font-bold uppercase rounded-lg">
+          Continuar Comprando
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH MODAL (CLIENTE vs ADMIN) -->
+  <div id="authModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full overflow-hidden shadow-2xl relative">
+        
+        <button id="closeAuthBtn" class="absolute top-4 right-4 z-20 text-zinc-400 hover:text-white p-2">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-6">
+            <div class="w-8 h-8 bg-yellow-400 text-black flex items-center justify-center font-display text-xl font-bold">
+              B
+            </div>
+            <h3 class="font-heading text-xl font-bold text-white uppercase">Acessar Conta</h3>
+          </div>
+
+          <!-- Tab Selection (Cliente / Administrador) -->
+          <div class="grid grid-cols-2 gap-1 p-1 bg-zinc-950 rounded-xl border border-zinc-800 mb-6">
+            <button id="tabClientAuth" class="py-2 text-xs font-bold uppercase rounded-lg bg-zinc-800 text-white transition-all">
+              Sou Cliente
+            </button>
+            <button id="tabAdminAuth" class="py-2 text-xs font-bold uppercase rounded-lg text-zinc-400 hover:text-white transition-all">
+              Administrador
+            </button>
+          </div>
+
+          <!-- Client Form -->
+          <form id="clientLoginForm" class="space-y-4">
+            <div>
+              <label class="block text-xs text-zinc-400 mb-1">Seu Nome</label>
+              <input type="text" id="clientNameInput" placeholder="Ex: Lucas Gabriel" required
+                class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+            </div>
+            <div>
+              <label class="block text-xs text-zinc-400 mb-1">E-mail</label>
+              <input type="email" id="clientEmailInput" placeholder="seu@email.com" required
+                class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+            </div>
+            <div>
+              <label class="block text-xs text-zinc-400 mb-1">Senha</label>
+              <input type="password" id="clientPasswordInput" placeholder="••••••••" required
+                class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-heading text-sm font-black uppercase rounded-lg transition-colors">
+              Entrar como Cliente
+            </button>
+          </form>
+
+          <!-- Admin Form -->
+          <form id="adminLoginForm" class="hidden space-y-4">
+            <div class="p-3 bg-red-950/30 border border-red-800/40 rounded-lg text-xs text-red-300">
+              <span class="font-bold">Área Restrita do Dono/Admin:</span> Acesso para gerenciar estoque, produtos, cupons e frete.
+            </div>
+            <div>
+              <label class="block text-xs text-zinc-400 mb-1">E-mail Admin</label>
+              <input type="email" id="adminEmailInput" value="admin@brooklyn.com" required
+                class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+            </div>
+            <div>
+              <label class="block text-xs text-zinc-400 mb-1">Senha Admin</label>
+              <input type="password" id="adminPasswordInput" value="admin123" required
+                class="w-full bg-zinc-950 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+            </div>
+
+            <button type="submit" class="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-heading text-sm font-black uppercase rounded-lg transition-colors flex items-center justify-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4"></i>
+              <span>Entrar no Painel do Dono</span>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER PROFILE MODAL (When Logged In) -->
+  <div id="userProfileModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-backdrop absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-4">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <button id="closeProfileBtn" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-12 h-12 rounded-full bg-yellow-400 text-black font-display text-2xl flex items-center justify-center font-black">
+            <span id="profileAvatarLetter">U</span>
+          </div>
+          <div>
+            <h3 id="profileName" class="font-heading text-lg font-bold text-white">Nome do Usuário</h3>
+            <p id="profileEmail" class="text-xs text-zinc-400">email@usuario.com</p>
+            <span id="profileRoleBadge" class="inline-block mt-1 text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-zinc-800 text-yellow-400">Cliente</span>
+          </div>
+        </div>
+
+        <div class="space-y-2 border-t border-zinc-800 pt-4">
+          <button id="profileAdminBtn" class="hidden w-full py-2.5 px-4 rounded-lg bg-red-600/20 text-red-400 border border-red-600/40 hover:bg-red-600/30 text-xs font-bold uppercase flex items-center justify-center gap-2">
+            <i data-lucide="shield" class="w-4 h-4"></i>
+            <span>Acessar Painel do Dono</span>
+          </button>
+          <button id="profileLogoutBtn" class="w-full py-2.5 px-4 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-zinc-200 uppercase transition-colors">
+            Sair da Conta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN PANEL MODAL (EXCLUSIVE DONO/ADMIN) ==================== -->
+  <div id="adminPanelModal" class="fixed inset-0 z-50 hidden">
+    <div class="modal-backdrop absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+    <div class="relative z-10 w-full h-full flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div class="bg-[#121216] border border-zinc-700 rounded-2xl max-w-5xl w-full my-6 overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+        
+        <!-- Admin Header -->
+        <div class="p-5 bg-zinc-950 border-b border-zinc-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-red-600 text-white flex items-center justify-center font-bold">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-heading text-lg font-black text-white uppercase tracking-wider">Painel do Dono / Administrador</h3>
+                <span class="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded font-bold uppercase border border-red-500/30">Acesso Restrito</span>
+              </div>
+              <p class="text-xs text-zinc-400">Gerenciamento completo de estoque, produtos, cupons e frete da Brooklyn Streetwear.</p>
+            </div>
+          </div>
+          <button id="closeAdminPanelBtn" class="p-2 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Admin Navigation Tabs -->
+        <div class="bg-zinc-900 border-b border-zinc-800 px-6 flex gap-4 text-xs font-bold uppercase tracking-wider">
+          <button id="adminTabProducts" class="admin-tab active py-3 border-b-2 border-yellow-400 text-yellow-400">
+            📦 Estoque & Produtos
+          </button>
+          <button id="adminTabCoupons" class="admin-tab py-3 border-b-2 border-transparent text-zinc-400 hover:text-white">
+            🏷️ Cupons de Desconto
+          </button>
+          <button id="adminTabShipping" class="admin-tab py-3 border-b-2 border-transparent text-zinc-400 hover:text-white">
+            🚚 Frete & Loja
+          </button>
+        </div>
+
+        <!-- Admin Body -->
+        <div class="p-6 overflow-y-auto flex-1 space-y-6">
+          
+          <!-- TAB 1: PRODUTOS & ESTOQUE -->
+          <div id="adminSectionProducts" class="space-y-6">
+            <!-- Add Product Button and Form Toggle -->
+            <div class="flex justify-between items-center">
+              <h4 class="font-heading text-base font-bold text-white uppercase">Lista de Produtos no Estoque</h4>
+              <button id="adminToggleAddProductBtn" class="px-4 py-2 bg-yellow-400 text-black text-xs font-bold uppercase rounded-lg flex items-center gap-2 hover:bg-yellow-300">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Novo Produto</span>
+              </button>
+            </div>
+
+            <!-- New Product Form (collapsible) -->
+            <form id="adminNewProductForm" class="hidden p-5 bg-zinc-950 border border-zinc-800 rounded-xl space-y-4">
+              <h5 class="font-heading text-sm font-bold text-yellow-400 uppercase">Cadastrar Novo Produto</h5>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Nome do Produto *</label>
+                  <input type="text" id="newProdName" required placeholder="Ex: Jaqueta Corta-Vento Brooklyn" 
+                    class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Categoria *</label>
+                  <select id="newProdCategory" required class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                    <option value="Camisetas">👕 Camisetas</option>
+                    <option value="Calçados">👟 Calçados</option>
+                    <option value="Acessórios">🧢 Acessórios</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Preço de Venda (R$) *</label>
+                  <input type="number" step="0.01" id="newProdPrice" required placeholder="149.90" 
+                    class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Preço Original / De (opcional R$)</label>
+                  <input type="number" step="0.01" id="newProdOldPrice" placeholder="189.90" 
+                    class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Quantidade em Estoque *</label>
+                  <input type="number" id="newProdStock" required placeholder="20" 
+                    class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+                <div>
+                  <label class="block text-xs text-zinc-400 mb-1">Tamanhos (separados por vírgula) *</label>
+                  <input type="text" id="newProdSizes" required placeholder="P, M, G, GG" value="P, M, G, GG" 
+                    class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">URL da Imagem / Foto *</label>
+                <input type="url" id="newProdImage" required placeholder="https://images.unsplash.com/..." 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400">
+              </div>
+
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Descrição do Produto *</label>
+                <textarea id="newProdDesc" required rows="2" placeholder="Modelagem pesada, acabamento premium..." 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400"></textarea>
+              </div>
+
+              <div class="flex justify-end gap-2">
+                <button type="button" id="adminCancelNewProd" class="px-4 py-2 bg-zinc-800 text-xs font-bold uppercase text-zinc-300 rounded hover:bg-zinc-700">
+                  Cancelar
+                </button>
+                <button type="submit" class="px-5 py-2 bg-yellow-400 text-xs font-bold uppercase text-black rounded hover:bg-yellow-300">
+                  Salvar no Estoque
+                </button>
+              </div>
+            </form>
+
+            <!-- Table of Products -->
+            <div class="overflow-x-auto border border-zinc-800 rounded-xl">
+              <table class="w-full text-left text-xs text-zinc-300">
+                <thead class="bg-zinc-950 text-zinc-400 uppercase text-[10px] tracking-wider border-b border-zinc-800">
+                  <tr>
+                    <th class="p-3">Foto</th>
+                    <th class="p-3">Produto</th>
+                    <th class="p-3">Categoria</th>
+                    <th class="p-3">Preço</th>
+                    <th class="p-3">Estoque</th>
+                    <th class="p-3 text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="adminProductsTableBody" class="divide-y divide-zinc-800">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 2: CUPONS DE DESCONTO -->
+          <div id="adminSectionCoupons" class="hidden space-y-6">
+            <div class="flex justify-between items-center">
+              <div>
+                <h4 class="font-heading text-base font-bold text-white uppercase">Cupons Promocionais</h4>
+                <p class="text-xs text-zinc-400">Crie cupons com porcentagem de desconto para seus clientes.</p>
+              </div>
+            </div>
+
+            <!-- Create Coupon Form -->
+            <form id="adminNewCouponForm" class="p-4 bg-zinc-950 border border-zinc-800 rounded-xl flex flex-wrap items-end gap-3">
+              <div class="flex-1 min-w-[160px]">
+                <label class="block text-xs text-zinc-400 mb-1">Código do Cupom *</label>
+                <input type="text" id="newCouponCode" required placeholder="BROOKLYN20" 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded uppercase focus:outline-none focus:border-yellow-400 font-bold">
+              </div>
+              <div class="w-36">
+                <label class="block text-xs text-zinc-400 mb-1">Desconto (%) *</label>
+                <input type="number" id="newCouponDiscount" min="1" max="90" required placeholder="15" 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-xs text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400 font-bold">
+              </div>
+              <button type="submit" class="px-5 py-2.5 bg-yellow-400 text-black text-xs font-bold uppercase rounded hover:bg-yellow-300">
+                Criar Cupom
+              </button>
+            </form>
+
+            <!-- Coupons List -->
+            <div id="adminCouponsList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- TAB 3: FRETE & CONFIGURAÇÕES -->
+          <div id="adminSectionShipping" class="hidden space-y-6">
+            <h4 class="font-heading text-base font-bold text-white uppercase">Definição de Frete</h4>
+            
+            <form id="adminShippingForm" class="p-5 bg-zinc-950 border border-zinc-800 rounded-xl space-y-4 max-w-lg">
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Valor do Frete Padrão (R$)</label>
+                <input type="number" step="0.01" id="adminShippingCost" required 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400 font-bold">
+                <p class="text-[11px] text-zinc-500 mt-1">Cobrado no carrinho para pedidos normais.</p>
+              </div>
+
+              <div>
+                <label class="block text-xs text-zinc-400 mb-1">Frete Grátis em compras acima de (R$)</label>
+                <input type="number" step="0.01" id="adminFreeShippingMin" required 
+                  class="w-full bg-zinc-900 border border-zinc-700 text-sm text-zinc-200 px-3 py-2 rounded focus:outline-none focus:border-yellow-400 font-bold">
+                <p class="text-[11px] text-zinc-500 mt-1">Quando o subtotal passar deste valor, o frete fica R$ 0,00.</p>
+              </div>
+
+              <button type="submit" class="px-5 py-2.5 bg-yellow-400 text-black text-xs font-bold uppercase rounded hover:bg-yellow-300">
+                Salvar Configurações de Frete
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-zinc-900 border border-yellow-400 text-white text-xs font-bold px-4 py-3 rounded-lg shadow-2xl flex items-center gap-2">
+    <i data-lucide="check-circle" class="w-4 h-4 text-yellow-400"></i>
+    <span id="toastMsg">Mensagem</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
